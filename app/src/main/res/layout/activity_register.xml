@@ -123,27 +123,6 @@
 
             </android.support.design.widget.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColorHint="#bcbcbc">
-
-                <EditText
-                    android:id="@+id/confirmPassword"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/prompt_confirmPassword"
-                    android:imeActionId="6"
-                    android:imeActionLabel="@string/title_activity_signup"
-                    android:imeOptions="actionUnspecified"
-                    android:inputType="textPassword"
-                    android:maxLines="1"
-                    android:singleLine="true"
-                    android:textColor="#fff"
-                    android:backgroundTint="#bcbcbc"/>
-
-            </android.support.design.widget.TextInputLayout>
-
             <Button
                 android:id="@+id/sign_up_button"
                 style="?android:textAppearanceSmall"
@@ -154,8 +133,7 @@
                 android:typeface="serif"
                 android:alpha="0.8"
                 android:textColor="#000"
-                android:textStyle="bold"
-                android:onClick="register"/>
+                android:textStyle="bold"/>
 
             <TextView
                 android:layout_width="match_parent"
