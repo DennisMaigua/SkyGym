@@ -12,15 +12,6 @@
     tools:context=".Profile"
     tools:showIn="@layout/activity_profile">
 
-    <!-- Save profile progress -->
-    <ProgressBar
-        android:id="@+id/saveProfile_progress"
-        style="?android:attr/progressBarStyleLarge"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:visibility="gone" />
-
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -156,8 +147,7 @@
                 android:typeface="serif"
                 android:alpha="0.8"
                 android:textColor="#000"
-                android:textStyle="bold"
-                android:onClick="saveProfile"/>
+                android:textStyle="bold"/>
 
         </LinearLayout>
 
