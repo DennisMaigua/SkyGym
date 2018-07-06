@@ -1,5 +1,5 @@
 <?php
-    $con = mysqli_connect("skygymapp.000webhost.com", "id6406724_admin", "admin", "id6406724_skygym");
+    $con = mysqli_connect("localhost", "id6406724_admin", "admin", "id6406724_skygym");
     
     $first_name = $_POST["first_name"];
     $last_name = $_POST["last_name"];
