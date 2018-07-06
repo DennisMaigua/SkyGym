@@ -1,5 +1,5 @@
 <?php
-    $con = mysqli_connect("skygymapp.000webhost.com", "id6406724_admin", "admin", "id6406724_skygym");
+    $con = mysqli_connect("localhost", "id6406724_admin", "admin", "id6406724_skygym");
     
     $email = $_POST["email"];
     $password = $_POST["password"];
