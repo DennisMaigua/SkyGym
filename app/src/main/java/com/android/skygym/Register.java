@@ -62,13 +62,13 @@ public class Register extends AppCompatActivity {
                     lname.setError("Field is required!");
                 }
                 else if(email.isEmpty()||!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
-                    eml.setError("Enter a valid email address!");
+                    eml.setError("Invalid email address!");
                 }
                 else if(password.isEmpty()){
                     pwd.setError("Field is required!");
                 }
                 else if(confirmPassword.isEmpty()){
-                    cnfmPwd.setError("Please re-enter your Password!");
+                    cnfmPwd.setError("Please re-enter your password!");
                 }
                 else if(!password.equals(confirmPassword)){
                     cnfmPwd.setError("Passwords do not match!");
