@@ -186,40 +186,15 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                     mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
                 }
                 break;
-
-            case R.id.gym:
-                mMap.clear();
-                String gym = "Gym";
-                String url = getUrl(latitude, longitude, gym);
-                Object dataTransfer[] = new Object[2];
-                dataTransfer[0] = mMap;
-                dataTransfer[1] = url;
-
-                GetNearbyPlaces getNearbyPlacesData = new GetNearbyPlaces();
-                getNearbyPlacesData.execute(dataTransfer);
-                Toast.makeText(MapsActivity.this, "Showing Nearby Gyms", Toast.LENGTH_SHORT).show();
-                break;
-
-            case R.id.to:
-                dataTransfer = new Object[3];
-                url = getDirectionsUrl();
-                GetDirectionsData getDirectionsData = new GetDirectionsData();
-                dataTransfer[0] = mMap;
-                dataTransfer[1] = url;
-                dataTransfer[2] = new LatLng(end_latitude, end_longitude);
-                getDirectionsData.execute(dataTransfer);
-
-                getDirectionsData.execute(dataTransfer);
-                break;
         }
     }
 
-    private  String getDirectionsUrl(){
+    /*private  String getDirectionsUrl(){
 
         return "https://maps.googleapis.com/maps/api/directions/json?" + "origin" + latitude + "," + longitude +
                 "&destination=" + end_latitude + "," + end_longitude +
                 "&key=" + "AIzaSyBteDX7TRnFc7KtgbGrCh0YQBvaGrPISgo";
-    }
+    }*/
 
     @Override
     public void onLocationChanged(Location location) {
@@ -247,7 +222,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
     }
 
-    private String getUrl(double latitude , double longitude , String nearbyPlace) {
+    /*private String getUrl(double latitude , double longitude , String nearbyPlace) {
         StringBuilder googlePlaceUrl = new StringBuilder("https://maps.googleapis.com/maps/api/place/nearbysearch/json?");
         googlePlaceUrl.append("location=").append(latitude).append(",").append(longitude);
         googlePlaceUrl.append("&radius=").append(PROXIMITY_RADIUS);
@@ -258,7 +233,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         Log.d("MapsActivity", "url = "+googlePlaceUrl.toString());
 
         return googlePlaceUrl.toString();
-    }
+    }*/
 
     @Override
     public void onConnected(@Nullable Bundle bundle) {

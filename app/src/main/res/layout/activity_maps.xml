@@ -24,27 +24,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="onSearch"
+            android:contentDescription="search icon"
             android:src="@drawable/ic_search"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <Button
-            android:id="@+id/gym"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="onSearch"
-            android:text="Gym"/>
-
-        <Button
-            android:id="@+id/to"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="onSearch"
-            android:text="to"/>
 
     </LinearLayout>
 

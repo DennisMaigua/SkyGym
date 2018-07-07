@@ -33,4 +33,6 @@
     <string name="title_activity_instructors">Instructors</string>
     <string name="prompt_username">Username</string>
     <string name="title_activity_profile">Save</string>
+    <string name="title_activity_login2">Login2</string>
+    <string name="title_activity_register2">Register2</string>
 </resources>
