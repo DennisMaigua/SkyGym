@@ -82,7 +82,7 @@ public class Register extends AppCompatActivity {
                                 boolean success = jsonResponse.getBoolean("success");
                                 if (success) {
                                     AlertDialog.Builder builder = new AlertDialog.Builder(Register.this);
-                                    builder.setMessage("Registration successful!")
+                                    builder.setMessage("You may now proceed to Login.")
                                             .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                                                 @Override
                                                 public void onClick(DialogInterface dialog, int which) {
@@ -90,13 +90,17 @@ public class Register extends AppCompatActivity {
                                                     Register.this.startActivity(intent);
                                                 }
                                             })
+                                            .setTitle("Success!")
+                                            .setIcon(R.drawable.ic_success)
                                             .create()
                                             .show();
                                 }
                                 else {
                                     AlertDialog.Builder builder = new AlertDialog.Builder(Register.this);
-                                    builder.setMessage("Registration failed!")
+                                    builder.setMessage("Registration failed! Something went wrong.")
                                             .setNegativeButton("Retry", null)
+                                            .setTitle("Alert!")
+                                            .setIcon(R.drawable.ic_error)
                                             .create()
                                             .show();
                                 }

@@ -67,7 +67,7 @@ public class Login extends AppCompatActivity {
                                     final String last_name = jsonResponse.getString("last_name");
 
                                     AlertDialog.Builder builder = new AlertDialog.Builder(Login.this);
-                                    builder.setMessage("Login successful!")
+                                    builder.setMessage("Welcome to Sky Gym.")
                                             .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                                                 @Override
                                                 public void onClick(DialogInterface dialog, int which) {
@@ -78,13 +78,17 @@ public class Login extends AppCompatActivity {
                                                     Login.this.startActivity(intent);
                                                 }
                                             })
+                                            .setTitle("Success!")
+                                            .setIcon(R.drawable.ic_success)
                                             .create()
                                             .show();
                                 }
                                 else {
                                     AlertDialog.Builder builder = new AlertDialog.Builder(Login.this);
-                                    builder.setMessage("Incorrect email or password!")
+                                    builder.setMessage("Incorrect email or password.")
                                             .setNegativeButton("Retry", null)
+                                            .setTitle("Alert!")
+                                            .setIcon(R.drawable.ic_error)
                                             .create()
                                             .show();
                                 }
