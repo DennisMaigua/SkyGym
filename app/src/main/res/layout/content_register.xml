@@ -179,7 +179,7 @@
                 android:textStyle="italic"
                 android:gravity="center"
                 android:textColor="#bcbcbc"/>
--
+
         </LinearLayout>
 
     </android.support.v4.widget.NestedScrollView>
