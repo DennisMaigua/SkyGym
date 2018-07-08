@@ -30,6 +30,7 @@ public class Register extends AppCompatActivity {
         final EditText fname = findViewById(R.id.firstname);
         final EditText lname = findViewById(R.id.lastname);
         final EditText eml = findViewById(R.id.email);
+        final EditText usr = findViewById(R.id.username);
         final EditText pwd = findViewById(R.id.password);
         final EditText cnfmPwd = findViewById(R.id.confirmPassword);
         final Button bRegister = findViewById(R.id.sign_up_button);
@@ -52,6 +53,7 @@ public class Register extends AppCompatActivity {
                 final String first_name = fname.getText().toString().trim();
                 final String last_name = lname.getText().toString().trim();
                 final String email = eml.getText().toString().trim();
+                final String username = usr.getText().toString().trim();
                 final String password = pwd.getText().toString().trim();
                 final String confirmPassword = cnfmPwd.getText().toString().trim();
 
@@ -62,10 +64,19 @@ public class Register extends AppCompatActivity {
                     lname.setError("Field is required!");
                 }
                 else if(email.isEmpty()||!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
-                    eml.setError("Invalid email address!");
+                    eml.setError("Enter a valid email address!");
+                }
+                else if(username.isEmpty()){
+                    usr.setError("Field is required!");
+                }
+                if(username.length()<5){
+                    usr.setError("Field should have at least 5 characters!");
                 }
                 else if(password.isEmpty()){
                     pwd.setError("Field is required!");
+                }
+                if(password.length()<8){
+                    pwd.setError("Field should have at least 8 characters!");
                 }
                 else if(confirmPassword.isEmpty()){
                     cnfmPwd.setError("Please re-enter your password!");
@@ -87,7 +98,7 @@ public class Register extends AppCompatActivity {
                                                 @Override
                                                 public void onClick(DialogInterface dialog, int which) {
                                                     Intent intent = new Intent(Register.this, Login.class);
-                                                    Register.this.startActivity(intent);
+                                                    startActivity(intent);
                                                 }
                                             })
                                             .setTitle("Success!")
@@ -110,7 +121,7 @@ public class Register extends AppCompatActivity {
                             }
                         }
                     };
-                    RegisterRequest registerRequest = new RegisterRequest(first_name, last_name, email, password, responseListener);
+                    RegisterRequest registerRequest = new RegisterRequest(first_name, last_name, email, username, password, responseListener);
                     RequestQueue queue = Volley.newRequestQueue(Register.this);
                     queue.add(registerRequest);
                 }

@@ -9,12 +9,13 @@ public class RegisterRequest extends StringRequest {
     private static final String REGISTER_REQUEST_URL = "http://skygymapp.cf/Register.php";
     private Map<String, String> params;
 
-    public RegisterRequest(String first_name, String last_name, String email, String password, Response.Listener<String> listener) {
+    public RegisterRequest(String first_name, String last_name, String email, String username, String password, Response.Listener<String> listener) {
         super(Method.POST, REGISTER_REQUEST_URL, listener, null);
         params = new HashMap<>();
         params.put("first_name", first_name);
         params.put("last_name", last_name);
         params.put("email", email);
+        params.put("username", username);
         params.put("password", password);
     }
 

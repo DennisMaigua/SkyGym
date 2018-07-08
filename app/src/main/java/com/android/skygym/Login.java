@@ -1,6 +1,7 @@
 package com.android.skygym;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
@@ -21,6 +22,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class Login extends AppCompatActivity {
+
+
+    private ProgressDialog progressDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

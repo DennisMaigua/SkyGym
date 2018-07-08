@@ -6,6 +6,7 @@
     <string name="prompt_firstname">First name</string>
     <string name="prompt_lastname">Last name</string>
     <string name="prompt_email">Email</string>
+    <string name="prompt_username">Username</string>
     <string name="prompt_password">Password</string>
     <string name="prompt_confirmPassword">Confirm password</string>
 
@@ -24,6 +25,5 @@
     <string name="title_activity_sessions">Sessions</string>
     <string name="title_activity_history">History</string>
     <string name="title_activity_instructors">Instructors</string>
-    <string name="prompt_username">Username</string>
     <string name="title_activity_profile">Save</string>
 </resources>
