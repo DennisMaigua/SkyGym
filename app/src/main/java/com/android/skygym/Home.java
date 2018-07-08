@@ -1,5 +1,7 @@
 package com.android.skygym;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -57,7 +59,6 @@ public class Home extends AppCompatActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.home, menu);
         return true;
     }
@@ -70,9 +71,19 @@ public class Home extends AppCompatActivity
             return true;
         }
         else if (id == R.id.logout) {
-            SharedPrefManager.getInstance(this).logout();
-            finish();
-            startActivity(new Intent(this, Login.class));
+            new AlertDialog.Builder(this)
+                .setMessage("Are you sure you want to exit?")
+                .setCancelable(false)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        Intent intent = new Intent(Home.this, Login.class);
+                        SharedPrefManager.getInstance(Home.this).logout();
+                        finish();
+                        startActivity(intent);
+                    }
+                })
+                .setNegativeButton("No", null)
+                .show();
         }
 
         return super.onOptionsItemSelected(item);
@@ -81,7 +92,6 @@ public class Home extends AppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        // Handle navigation view item clicks here.
         int id = item.getItemId();
 
         if (id == R.id.nav_home) {
