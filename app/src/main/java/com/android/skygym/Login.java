@@ -52,7 +52,7 @@ public class Login extends AppCompatActivity {
                 final String password = pword.getText().toString().trim();
 
                 if(email.isEmpty()||!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
-                    eml.setError("Invalid email address!");
+                    eml.setError("Enter a valid email address!");
                 }
                 else if(password.isEmpty()){
                     pword.setError("Field is required!");
