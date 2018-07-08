@@ -69,8 +69,10 @@ public class Home extends AppCompatActivity
         if (id == R.id.language) {
             return true;
         }
-        if (id == R.id.logout) {
-            return true;
+        else if (id == R.id.logout) {
+            SharedPrefManager.getInstance(this).logout();
+            finish();
+            startActivity(new Intent(this, Login.class));
         }
 
         return super.onOptionsItemSelected(item);
@@ -101,9 +103,9 @@ public class Home extends AppCompatActivity
             Intent intent = new Intent(Home.this, Instructors.class);
             startActivity(intent);
         } else if (id == R.id.nav_share) {
-
+            return true;
         } else if (id == R.id.nav_send) {
-
+            return true;
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);

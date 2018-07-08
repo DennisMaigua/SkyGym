@@ -1,41 +1,42 @@
 package com.android.skygym;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.android.volley.RequestQueue;
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
 import com.android.volley.Response;
-import com.android.volley.toolbox.Volley;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class Register extends AppCompatActivity {
+import java.util.HashMap;
+import java.util.Map;
+
+public class Register extends AppCompatActivity implements View.OnClickListener {
+
+    private EditText fname, lname, eml, usr, pwd, cnfm;
+    private ProgressDialog progressDialog;
+    private Button bRegister;
+    private TextView login;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        final EditText fname = findViewById(R.id.firstname);
-        final EditText lname = findViewById(R.id.lastname);
-        final EditText eml = findViewById(R.id.email);
-        final EditText usr = findViewById(R.id.username);
-        final EditText pwd = findViewById(R.id.password);
-        final EditText cnfmPwd = findViewById(R.id.confirmPassword);
-        final Button bRegister = findViewById(R.id.sign_up_button);
-
-        final TextView login = findViewById(R.id.login_to_account);
+        login = findViewById(R.id.login_to_account);
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -46,86 +47,80 @@ public class Register extends AppCompatActivity {
             }
         });
 
-        bRegister.setOnClickListener(new View.OnClickListener() {
+        if(SharedPrefManager.getInstance(this).isLoggedIn()){
+            finish();
+            startActivity(new Intent(this, Home.class));
+            return;
+        }
 
-            @Override
-            public void onClick(View v) {
-                final String first_name = fname.getText().toString().trim();
-                final String last_name = lname.getText().toString().trim();
-                final String email = eml.getText().toString().trim();
-                final String username = usr.getText().toString().trim();
-                final String password = pwd.getText().toString().trim();
-                final String confirmPassword = cnfmPwd.getText().toString().trim();
+        fname = findViewById(R.id.firstname);
+        lname = findViewById(R.id.lastname);
+        eml = findViewById(R.id.email);
+        usr = findViewById(R.id.username);
+        pwd = findViewById(R.id.password);
+        cnfm = findViewById(R.id.confirmPassword);
 
-                if(first_name.isEmpty()){
-                    fname.setError("Field is required!");
-                }
-                else if(last_name.isEmpty()){
-                    lname.setError("Field is required!");
-                }
-                else if(email.isEmpty()||!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
-                    eml.setError("Enter a valid email address!");
-                }
-                else if(username.isEmpty()){
-                    usr.setError("Field is required!");
-                }
-                if(username.length()<5){
-                    usr.setError("Field should have at least 5 characters!");
-                }
-                else if(password.isEmpty()){
-                    pwd.setError("Field is required!");
-                }
-                if(password.length()<8){
-                    pwd.setError("Field should have at least 8 characters!");
-                }
-                else if(confirmPassword.isEmpty()){
-                    cnfmPwd.setError("Please re-enter your password!");
-                }
-                else if(!password.equals(confirmPassword)){
-                    cnfmPwd.setError("Passwords do not match!");
-                }
-                else{
-                    Response.Listener<String> responseListener = new Response.Listener<String>() {
-                        @Override
-                        public void onResponse(String response) {
-                            try {
-                                JSONObject jsonResponse = new JSONObject(response);
-                                boolean success = jsonResponse.getBoolean("success");
-                                if (success) {
-                                    AlertDialog.Builder builder = new AlertDialog.Builder(Register.this);
-                                    builder.setMessage("You may now proceed to Login.")
-                                            .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                                                @Override
-                                                public void onClick(DialogInterface dialog, int which) {
-                                                    Intent intent = new Intent(Register.this, Login.class);
-                                                    startActivity(intent);
-                                                }
-                                            })
-                                            .setTitle("Success!")
-                                            .setIcon(R.drawable.ic_success)
-                                            .create()
-                                            .show();
-                                }
-                                else {
-                                    AlertDialog.Builder builder = new AlertDialog.Builder(Register.this);
-                                    builder.setMessage("Registration failed! Something went wrong.")
-                                            .setNegativeButton("Retry", null)
-                                            .setTitle("Alert!")
-                                            .setIcon(R.drawable.ic_error)
-                                            .create()
-                                            .show();
-                                }
-                            }
-                            catch (JSONException e) {
-                                e.printStackTrace();
-                            }
+        progressDialog = new ProgressDialog(this);
+
+        bRegister = findViewById(R.id.sign_up_button);
+        bRegister.setOnClickListener(this);
+    }
+
+    private void registerUser() {
+        final String firstname = fname.getText().toString().trim();
+        final String lastname = lname.getText().toString().trim();
+        final String email = eml.getText().toString().trim();
+        final String username = usr.getText().toString().trim();
+        final String password = pwd.getText().toString().trim();
+
+        progressDialog.setMessage("Registering user...");
+        progressDialog.show();
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST,
+                Constants.URL_REGISTER,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        progressDialog.dismiss();
+
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+
+                            Toast.makeText(getApplicationContext(), jsonObject.getString("message"), Toast.LENGTH_LONG).show();
+
+                            startActivity(new Intent(getApplicationContext(), Login.class));
+                            finish();
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
                         }
-                    };
-                    RegisterRequest registerRequest = new RegisterRequest(first_name, last_name, email, username, password, responseListener);
-                    RequestQueue queue = Volley.newRequestQueue(Register.this);
-                    queue.add(registerRequest);
-                }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        progressDialog.hide();
+                        Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("firstname", firstname);
+                params.put("lastname", lastname);
+                params.put("email", email);
+                params.put("username", username);
+                params.put("password", password);
+                return params;
             }
-        });
+        };
+         RequestHandler.getInstance(this).addToRequestQueue(stringRequest);
+    }
+
+    @Override
+    public void onClick(View view) {
+        if (view == bRegister){
+            registerUser();
+        }
     }
 }

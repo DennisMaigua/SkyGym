@@ -21,7 +21,6 @@
             android:id="@+id/saveProfile_form"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="5dp"
             android:orientation="vertical">
 
             <de.hdodenhof.circleimageview.CircleImageView

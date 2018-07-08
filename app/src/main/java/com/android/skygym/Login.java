@@ -1,38 +1,39 @@
 package com.android.skygym;
 
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.android.volley.RequestQueue;
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
 import com.android.volley.Response;
-import com.android.volley.toolbox.Volley;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class Login extends AppCompatActivity {
+import java.util.HashMap;
+import java.util.Map;
 
+public class Login extends AppCompatActivity implements View.OnClickListener {
 
+    private EditText editTextUsername, editTextPassword;
+    private Button buttonLogin;
     private ProgressDialog progressDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
-        final EditText eml = findViewById(R.id.email);
-        final EditText pword = findViewById(R.id.password);
-        final Button bLogin = findViewById(R.id.sign_in_button);
 
         final TextView signup = findViewById(R.id.create_account);
         signup.setOnClickListener(new View.OnClickListener() {
@@ -45,68 +46,88 @@ public class Login extends AppCompatActivity {
             }
         });
 
-        bLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final String email = eml.getText().toString().trim();
-                final String password = pword.getText().toString().trim();
+        if(SharedPrefManager.getInstance(this).isLoggedIn()){
+            finish();
+            startActivity(new Intent(this, Home.class));
+            return;
+        }
 
-                if(email.isEmpty()||!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
-                    eml.setError("Enter a valid email address!");
-                }
-                else if(password.isEmpty()){
-                    pword.setError("Field is required!");
-                }
-                else{
-                    Response.Listener<String> responseListener = new Response.Listener<String>() {
-                        @Override
-                        public void onResponse(String response) {
-                            try {
-                                JSONObject jsonResponse = new JSONObject(response);
-                                boolean success = jsonResponse.getBoolean("success");
+        editTextUsername = findViewById(R.id.username);
+        editTextPassword = findViewById(R.id.password);
+        buttonLogin = findViewById(R.id.sign_in_button);
 
-                                if (success) {
-                                    final String first_name = jsonResponse.getString("first_name");
-                                    final String last_name = jsonResponse.getString("last_name");
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Please wait...");
 
-                                    AlertDialog.Builder builder = new AlertDialog.Builder(Login.this);
-                                    builder.setMessage("Welcome to Sky Gym.")
-                                            .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                                                @Override
-                                                public void onClick(DialogInterface dialog, int which) {
-                                                    Intent intent = new Intent(Login.this, Home.class);
-                                                    intent.putExtra("first_name", first_name);
-                                                    intent.putExtra("last_name", last_name);
-                                                    intent.putExtra("email", email);
-                                                    Login.this.startActivity(intent);
-                                                }
-                                            })
-                                            .setTitle("Success!")
-                                            .setIcon(R.drawable.ic_success)
-                                            .create()
-                                            .show();
-                                }
-                                else {
-                                    AlertDialog.Builder builder = new AlertDialog.Builder(Login.this);
-                                    builder.setMessage("Incorrect email or password.")
-                                            .setNegativeButton("Retry", null)
-                                            .setTitle("Alert!")
-                                            .setIcon(R.drawable.ic_error)
-                                            .create()
-                                            .show();
-                                }
+        buttonLogin.setOnClickListener(this);
+    }
+
+    private void userLogin(){
+        final String username = editTextUsername.getText().toString().trim();
+        final String password = editTextPassword.getText().toString().trim();
+
+        progressDialog.show();
+
+        StringRequest stringRequest = new StringRequest(
+                Request.Method.POST,
+                Constants.URL_LOGIN,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        progressDialog.dismiss();
+                        try {
+                            JSONObject obj = new JSONObject(response);
+                            if(!obj.getBoolean("error")){
+                                SharedPrefManager.getInstance(getApplicationContext())
+                                        .userLogin(
+                                                obj.getInt("id"),
+                                                obj.getString("username"),
+                                                obj.getString("email")
+                                        );
+                                startActivity(new Intent(getApplicationContext(), Home.class));
+                                finish();
+                            }else{
+                                Toast.makeText(
+                                        getApplicationContext(),
+                                        obj.getString("message"),
+                                        Toast.LENGTH_LONG
+                                ).show();
                             }
-                            catch (JSONException e) {
-                                e.printStackTrace();
-                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
                         }
-                    };
-                    LoginRequest loginRequest = new LoginRequest(email, password, responseListener);
-                    RequestQueue queue = Volley.newRequestQueue(Login.this);
-                    queue.add(loginRequest);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        progressDialog.dismiss();
+
+                        Toast.makeText(
+                                getApplicationContext(),
+                                error.getMessage(),
+                                Toast.LENGTH_LONG
+                        ).show();
+                    }
                 }
+        ){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("username", username);
+                params.put("password", password);
+                return params;
             }
-        });
+
+        };
+
+        RequestHandler.getInstance(this).addToRequestQueue(stringRequest);
+    }
+
+    @Override
+    public void onClick(View view) {
+        if(view == buttonLogin){
+            userLogin();
+        }
     }
 }
-
