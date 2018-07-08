@@ -85,6 +85,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                                                 obj.getString("email")
                                         );
                                 startActivity(new Intent(getApplicationContext(), Home.class));
+                                Toast.makeText(getApplicationContext(), obj.getString("message"), Toast.LENGTH_LONG).show();
                                 finish();
                             }else{
                                 Toast.makeText(

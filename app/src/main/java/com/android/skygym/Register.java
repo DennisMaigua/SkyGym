@@ -86,9 +86,8 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
                         try {
                             JSONObject jsonObject = new JSONObject(response);
 
-                            Toast.makeText(getApplicationContext(), jsonObject.getString("message"), Toast.LENGTH_LONG).show();
-
                             startActivity(new Intent(getApplicationContext(), Login.class));
+                            Toast.makeText(getApplicationContext(), jsonObject.getString("message"), Toast.LENGTH_LONG).show();
                             finish();
 
                         } catch (JSONException e) {
