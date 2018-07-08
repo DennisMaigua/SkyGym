@@ -22,6 +22,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
+
         <activity
             android:name=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
@@ -31,16 +32,20 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".Login"
             android:theme="@style/AppTheme.NoActionBar" />
+
         <activity
             android:name=".Register"
             android:theme="@style/AppTheme.NoActionBar" />
+
         <activity
             android:name=".Home"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" />
+
         <activity
             android:name=".Profile"
             android:label="Edit Profile"
@@ -49,6 +54,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.android.skygym.Home" />
         </activity>
+
         <activity
             android:name=".Sessions"
             android:label="Sessions"
@@ -57,6 +63,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.android.skygym.Home" />
         </activity>
+
         <activity
             android:name=".History"
             android:label="History"
@@ -65,6 +72,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.android.skygym.Home" />
         </activity>
+
         <activity
             android:name=".Instructors"
             android:label="Instructors"
@@ -79,13 +87,15 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".MapsActivity"
+            android:name=".PlacePicker"
             android:label="@string/title_activity_maps"
             android:parentActivityName=".Home">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.android.skygym.Home" />
         </activity>
+
+        <activity android:name=".MapsActivity"></activity>
     </application>
 
 </manifest>

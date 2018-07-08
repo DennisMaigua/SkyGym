@@ -39,7 +39,6 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
-
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback,
         LocationListener, GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener {
@@ -51,8 +50,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     LocationRequest mLocationRequest;
     public static final int REQUEST_LOCATION_CODE = 99;
     double latitude, longitude;
-    EditText editText;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -195,7 +192,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         if(mCurrLocationMarker != null)
         {
             mCurrLocationMarker.remove();
-
         }
         Log.d("lat = ",""+latitude);
         LatLng latLng = new LatLng(location.getLatitude() , location.getLongitude());

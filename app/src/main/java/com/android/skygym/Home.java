@@ -101,7 +101,7 @@ public class Home extends AppCompatActivity
             Intent intent = new Intent(Home.this, Profile.class);
             startActivity(intent);
         } else if (id == R.id.nav_locations) {
-            Intent intent = new Intent(Home.this, MapsActivity.class);
+            Intent intent = new Intent(Home.this, PlacePicker.class);
             startActivity(intent);
         } else if (id == R.id.nav_sessions) {
             Intent intent = new Intent(Home.this, Sessions.class);
